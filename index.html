@@ -89,6 +89,24 @@
   .note{font-size:.72rem;color:var(--text-sub);background:#f0f2f3;border-radius:var(--radius);padding:8px 10px;margin-top:10px;line-height:1.5;font-weight:400}
   .note strong{color:var(--text);font-weight:700}
 
+  /* accordion */
+  .accordion{margin-top:16px}
+  .accordion-toggle{display:flex;align-items:center;gap:8px;width:100%;padding:14px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;font-size:.85rem;font-weight:700;color:var(--primary);font-family:inherit;text-align:left}
+  .accordion-toggle .acc-icon{transition:transform .2s;font-size:.7rem;color:var(--primary)}
+  .accordion-toggle.open .acc-icon{transform:rotate(90deg)}
+  .accordion-body{display:none;background:var(--card);border:1.5px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:16px;font-size:.78rem;line-height:1.7;color:var(--text)}
+  .accordion-toggle.open{border-radius:var(--radius) var(--radius) 0 0}
+  .accordion-body.open{display:block}
+  .acc-section-title{font-weight:700;margin-top:10px;font-size:.78rem}
+  .acc-section-title:first-child{margin-top:0}
+  .acc-formula{border-left:3px solid var(--primary);padding:6px 10px;margin:4px 0 8px;background:var(--primary-light);border-radius:0 var(--radius) var(--radius) 0;font-size:.75rem;color:#c0392b;font-weight:500}
+  .acc-note{font-size:.72rem;color:var(--text-sub);margin-top:6px}
+  .acc-ref{font-size:.72rem;color:var(--text-sub);margin-top:10px}
+
+  /* branch3 notice */
+  .branch3-notice{display:none;margin-top:10px;padding:10px 12px;background:#fff8e6;border:1px solid #f0d58c;border-radius:var(--radius);font-size:.72rem;line-height:1.5;color:#7a6520}
+  .branch3-notice .notice-icon{margin-right:4px}
+
   /* footer */
   .footer{text-align:center;margin-top:24px;font-size:.7rem;color:var(--text-sub);padding:0 12px}
   .footer .copyright{margin-top:8px;font-size:.65rem;color:#999}
@@ -117,6 +135,22 @@
     <button class="season-btn" data-season="summer" onclick="setSeason('summer')">夏期</button>
   </div>
 
+  <!-- 通期評価について -->
+  <div class="accordion">
+    <button class="accordion-toggle" id="acc-toggle" onclick="toggleAccordion()">
+      <span class="acc-icon">&#9654;</span> 通期評価について
+    </button>
+    <div class="accordion-body" id="acc-body">
+      <p>冬期賞与及び夏期賞与の支給割合は4：6とし、下記計算式に基づき支給額を決定。</p>
+      <p class="acc-section-title">《冬期賞与》計算式</p>
+      <div class="acc-formula">「賞与基準値 &times; 評価ポイント（仮評価：標準評価） &times; ポイント単価（仮評価：BBB/BBB）」&times; 0.8</div>
+      <p class="acc-section-title">《夏期賞与》計算式</p>
+      <div class="acc-formula">「賞与基準値 &times; 評価ポイント（実績評価） &times; ポイント単価（実績評価）」&times; 2 &minus;「冬期賞与」&times; 調整係数</div>
+      <p class="acc-note">※調整係数<br>標準評価時の全社賞与ファンドから上下1％超のズレが生じた場合、適用されます。</p>
+      <p class="acc-ref">計算式の詳細はOCLU‐NEWS No.891をご確認ください。</p>
+    </div>
+  </div>
+
   <!-- Category Selection (summer only) -->
   <div class="card hidden" id="category-card">
     <div class="card-title"><span class="icon">&#9654;</span> 区分選択</div>
@@ -127,6 +161,10 @@
         <option value="hq">本社/海外グループ会社</option>
         <option value="domestic">国内グループ会社</option>
       </select>
+    </div>
+    <div class="branch3-notice" id="branch3-notice">
+      <span class="notice-icon">&#9888;</span>営業店（評価比率 部門１：支店３）の対象店は以下の通りです。<br>
+      オペレーションG／金融法人部門／首都圏管理センター／東日本住宅ローンサービス支店関東管理センター／東京業務センター
     </div>
   </div>
 
@@ -356,6 +394,14 @@ function formatNumber(n) {
   return Math.round(n).toLocaleString('ja-JP');
 }
 
+// --- Accordion ---
+function toggleAccordion() {
+  var toggle = $('acc-toggle');
+  var body = $('acc-body');
+  toggle.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
 // --- Season ---
 function setSeason(season) {
   currentSeason = season;
@@ -432,6 +478,9 @@ function onCategoryChange() {
   $('perf-branch').classList.toggle('hidden', cat !== 'branch12' && cat !== 'branch13');
   $('perf-hq').classList.toggle('hidden', cat !== 'hq');
   $('perf-domestic').classList.toggle('hidden', cat !== 'domestic');
+
+  // branch3 notice
+  $('branch3-notice').style.display = (cat === 'branch13') ? 'block' : 'none';
 
   if (cat === 'branch12' || cat === 'branch13') {
     $('perf-branch-label').textContent = '営業店評価';

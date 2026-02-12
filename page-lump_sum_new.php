@@ -156,6 +156,22 @@ $(function() {
   /* note box */
   .lsc-note{font-size:.72rem;color:var(--lsc-text-sub);background:#f0f2f3;border-radius:var(--lsc-radius);padding:8px 10px;margin-top:10px;line-height:1.5;font-weight:400}
   .lsc-note strong{color:var(--lsc-text);font-weight:700}
+  /* accordion */
+  .lsc-accordion{margin-top:16px}
+  .lsc-accordion-toggle{display:flex;align-items:center;gap:8px;width:100%;padding:14px 16px;background:var(--lsc-card);border:1.5px solid var(--lsc-border);border-radius:var(--lsc-radius);cursor:pointer;font-size:.85rem;font-weight:700;color:var(--lsc-primary);font-family:inherit;text-align:left}
+  .lsc-accordion-toggle .lsc-acc-icon{transition:transform .2s;font-size:.7rem;color:var(--lsc-primary)}
+  .lsc-accordion-toggle.open .lsc-acc-icon{transform:rotate(90deg)}
+  .lsc-accordion-body{display:none;background:var(--lsc-card);border:1.5px solid var(--lsc-border);border-top:none;border-radius:0 0 var(--lsc-radius) var(--lsc-radius);padding:16px;font-size:.78rem;line-height:1.7;color:var(--lsc-text)}
+  .lsc-accordion-toggle.open{border-radius:var(--lsc-radius) var(--lsc-radius) 0 0}
+  .lsc-accordion-body.open{display:block}
+  .lsc-acc-section-title{font-weight:700;margin-top:10px;font-size:.78rem}
+  .lsc-acc-section-title:first-child{margin-top:0}
+  .lsc-acc-formula{border-left:3px solid var(--lsc-primary);padding:6px 10px;margin:4px 0 8px;background:var(--lsc-primary-light);border-radius:0 var(--lsc-radius) var(--lsc-radius) 0;font-size:.75rem;color:#c0392b;font-weight:500}
+  .lsc-acc-note{font-size:.72rem;color:var(--lsc-text-sub);margin-top:6px}
+  .lsc-acc-ref{font-size:.72rem;color:var(--lsc-text-sub);margin-top:10px}
+  /* branch3 notice */
+  .lsc-branch3-notice{display:none;margin-top:10px;padding:10px 12px;background:#fff8e6;border:1px solid #f0d58c;border-radius:var(--lsc-radius);font-size:.72rem;line-height:1.5;color:#7a6520}
+  .lsc-branch3-notice .lsc-notice-icon{margin-right:4px}
   /* footer */
   .lsc-footer{text-align:center;margin-top:24px;font-size:.7rem;color:var(--lsc-text-sub);padding:0 12px}
   @media(min-width:600px){
@@ -351,6 +367,22 @@ $(function() {
     <button class="lsc-season-btn" data-season="summer" onclick="lscSetSeason('summer')">夏期</button>
   </div>
 
+  <!-- 通期評価について -->
+  <div class="lsc-accordion">
+    <button class="lsc-accordion-toggle" id="lsc-acc-toggle" onclick="lscToggleAccordion()">
+      <span class="lsc-acc-icon">&#9654;</span> 通期評価について
+    </button>
+    <div class="lsc-accordion-body" id="lsc-acc-body">
+      <p>冬期賞与及び夏期賞与の支給割合は4：6とし、下記計算式に基づき支給額を決定。</p>
+      <p class="lsc-acc-section-title">《冬期賞与》計算式</p>
+      <div class="lsc-acc-formula">「賞与基準値 &times; 評価ポイント（仮評価：標準評価） &times; ポイント単価（仮評価：BBB/BBB）」&times; 0.8</div>
+      <p class="lsc-acc-section-title">《夏期賞与》計算式</p>
+      <div class="lsc-acc-formula">「賞与基準値 &times; 評価ポイント（実績評価） &times; ポイント単価（実績評価）」&times; 2 &minus;「冬期賞与」&times; 調整係数</div>
+      <p class="lsc-acc-note">※調整係数<br>標準評価時の全社賞与ファンドから上下1％超のズレが生じた場合、適用されます。</p>
+      <p class="lsc-acc-ref">計算式の詳細はOCLU‐NEWS No.891をご確認ください。</p>
+    </div>
+  </div>
+
   <!-- Category Selection (summer only) -->
   <div class="lsc-card lsc-hidden" id="lsc-category-card">
     <div class="lsc-card-title"><span class="lsc-icon">&#9654;</span> 区分選択</div>
@@ -361,6 +393,10 @@ $(function() {
         <option value="hq">本社/海外グループ会社</option>
         <option value="domestic">国内グループ会社</option>
       </select>
+    </div>
+    <div class="lsc-branch3-notice" id="lsc-branch3-notice">
+      <span class="lsc-notice-icon">&#9888;</span>営業店（評価比率 部門１：支店３）の対象店は以下の通りです。<br>
+      オペレーションG／金融法人部門／首都圏管理センター／東日本住宅ローンサービス支店関東管理センター／東京業務センター
     </div>
   </div>
 
@@ -593,6 +629,14 @@ function lscFormatNumber(n) {
   return Math.round(n).toLocaleString('ja-JP');
 }
 
+// --- Accordion ---
+function lscToggleAccordion() {
+  var toggle = lscById('lsc-acc-toggle');
+  var body = lscById('lsc-acc-body');
+  toggle.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
 // --- Season ---
 function lscSetSeason(season) {
   lscCurrentSeason = season;
@@ -669,6 +713,9 @@ function lscOnCategoryChange() {
   lscById('lsc-perf-branch').classList.toggle('lsc-hidden', cat !== 'branch12' && cat !== 'branch13');
   lscById('lsc-perf-hq').classList.toggle('lsc-hidden', cat !== 'hq');
   lscById('lsc-perf-domestic').classList.toggle('lsc-hidden', cat !== 'domestic');
+
+  // branch3 notice
+  lscById('lsc-branch3-notice').style.display = (cat === 'branch13') ? 'block' : 'none';
 
   if (cat === 'branch12' || cat === 'branch13') {
     lscById('lsc-perf-branch-label').textContent = '営業店評価';
