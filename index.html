@@ -77,14 +77,6 @@
   /* hidden */
   .hidden{display:none!important}
 
-  /* performance table (summer) */
-  .perf-grid{display:grid;gap:6px}
-  .perf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
-  .perf-row select{font-size:.88rem;padding:8px}
-
-  /* domestic group simple select */
-  .domestic-select{margin-top:8px}
-
   /* note box */
   .note{font-size:.72rem;color:var(--text-sub);background:#f0f2f3;border-radius:var(--radius);padding:8px 10px;margin-top:10px;line-height:1.5;font-weight:400}
   .note strong{color:var(--text);font-weight:700}
@@ -102,10 +94,6 @@
   .acc-formula{border-left:3px solid var(--primary);padding:6px 10px;margin:4px 0 8px;background:var(--primary-light);border-radius:0 var(--radius) var(--radius) 0;font-size:.75rem;color:#c0392b;font-weight:500}
   .acc-note{font-size:.72rem;color:var(--text-sub);margin-top:6px}
   .acc-ref{font-size:.72rem;color:var(--text-sub);margin-top:10px}
-
-  /* branch3 notice */
-  .branch3-notice{margin-top:12px;padding:10px 12px;background:#fff8e6;border:1px solid #f0d58c;border-radius:var(--radius);font-size:.72rem;line-height:1.5;color:#7a6520}
-  .branch3-notice .notice-icon{margin-right:4px}
 
   /* category buttons */
   .category-btns{display:grid;gap:8px}
@@ -161,14 +149,9 @@
   <div class="card hidden" id="category-card">
     <div class="card-title"><span class="icon">&#9654;</span> 区分選択</div>
     <div class="category-btns">
-      <button class="category-btn" data-cat="branch12" onclick="selectCategory('branch12')">営業店（評価比率 部門１：支店２）</button>
-      <button class="category-btn" data-cat="branch13" onclick="selectCategory('branch13')">営業店（評価比率 部門１：支店３）</button>
-      <button class="category-btn" data-cat="hq" onclick="selectCategory('hq')">本社/海外グループ会社</button>
-      <button class="category-btn" data-cat="domestic" onclick="selectCategory('domestic')">国内グループ会社</button>
-    </div>
-    <div class="branch3-notice">
-      <span class="notice-icon">&#9888;</span>営業店（評価比率 部門１：支店３）の対象店は以下の通りです。<br>
-      オペレーションG／金融法人部門／首都圏管理センター／東日本住宅ローンサービス支店関東管理センター／東京業務センター
+      <button class="category-btn" data-cat="hq_office" onclick="selectCategory('hq_office')">本社部室店</button>
+      <button class="category-btn" data-cat="branch" onclick="selectCategory('branch')">営業店</button>
+      <button class="category-btn" data-cat="group" onclick="selectCategory('group')">グループ会社</button>
     </div>
   </div>
 
@@ -254,61 +237,30 @@
       </div>
       <!-- Summer: dynamic selectors -->
       <div id="perf-summer" class="hidden">
-        <!-- branch12 / branch13 -->
-        <div id="perf-branch" class="perf-grid">
-          <div class="perf-row">
-            <div class="field">
-              <label class="field-label">部門評価</label>
-              <select id="perf-dept" onchange="calcPerf()">
-                <option value="A">A</option>
-                <option value="B+">B+</option>
-                <option value="B" selected>B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
-            <div class="field">
-              <label class="field-label" id="perf-branch-label">営業店評価</label>
-              <select id="perf-branch-eval" onchange="calcPerf()">
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- hq -->
-        <div id="perf-hq" class="perf-grid hidden">
-          <div class="perf-row">
-            <div class="field">
-              <label class="field-label">部門評価</label>
-              <select id="perf-hq-dept" onchange="calcPerf()">
-                <option value="A">A</option>
-                <option value="B+">B+</option>
-                <option value="B" selected>B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
-            <div class="field">
-              <label class="field-label">部・室評価</label>
-              <select id="perf-hq-section" onchange="calcPerf()">
-                <option value="A">A</option>
-                <option value="B+">B+</option>
-                <option value="B" selected>B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- domestic -->
-        <div id="perf-domestic" class="hidden domestic-select">
-          <label class="field-label">グループ会社評価</label>
-          <select id="perf-domestic-eval" onchange="calcPerf()">
-            <option value="10">S（10P）</option>
-            <option value="7">A（7P）</option>
-            <option value="5" selected>B（5P）</option>
+        <!-- 本社部室店 -->
+        <div id="perf-hq-office">
+          <select id="perf-hq-office-eval" onchange="calcPerf()">
+            <option value="8">S（8P）</option>
+            <option value="6">A（6P）</option>
+            <option value="5" selected>B（5P）- 標準</option>
             <option value="3">C（3P）</option>
-            <option value="0">D（0P）</option>
+            <option value="2">D（2P）</option>
           </select>
+        </div>
+        <!-- 営業店 -->
+        <div id="perf-branch" class="hidden">
+          <select id="perf-branch-eval" onchange="calcPerf()">
+            <option value="10">優秀（10P）</option>
+            <option value="7">優良（7P）</option>
+            <option value="5" selected>中位①（5P）- 標準</option>
+            <option value="3">中位②（3P）</option>
+            <option value="0">下位（0P）</option>
+          </select>
+        </div>
+        <!-- グループ会社 -->
+        <div id="perf-group" class="hidden">
+          <input type="number" value="5" disabled>
+          <div class="note" style="margin-top:6px">グループ会社は標準（5P）固定です。</div>
         </div>
       </div>
     </div>
@@ -365,33 +317,8 @@ var BASE_VALUES = {
   G01: { II: 18.9 }
 };
 
-var PERF_BRANCH12 = {
-  'A':  [13,10,8,6,3],
-  'B+': [11,8,6,4,1],
-  'B':  [10,7,5,3,0],
-  'C':  [9,6,4,2,0],
-  'D':  [7,4,2,0,0]
-};
-var PERF_BRANCH13 = {
-  'A':  [12,9,7,5,2],
-  'B+': [11,8,6,4,1],
-  'B':  [10,7,5,3,0],
-  'C':  [9,6,4,2,0],
-  'D':  [8,5,3,1,0]
-};
-var PERF_HQ = {
-  'A':  [10,8,7,6,4],
-  'B+': [9,7,6,5,3],
-  'B':  [8,6,5,4,2],
-  'C':  [7,5,4,3,1],
-  'D':  [6,4,3,2,0]
-};
-
-var BRANCH_EVAL_LABELS = ['優秀','優良','中位','下位1','下位2'];
-var HQ_EVAL_LABELS = ['A','B+','B','C','D'];
-
 var currentSeason = 'winter';
-var selectedCategory = 'branch12';
+var selectedCategory = 'hq_office';
 
 function $(id) { return document.getElementById(id); }
 
@@ -489,27 +416,10 @@ function selectCategory(cat) {
 // --- Category Change ---
 function onCategoryChange() {
   var cat = selectedCategory;
-  $('perf-branch').classList.toggle('hidden', cat !== 'branch12' && cat !== 'branch13');
-  $('perf-hq').classList.toggle('hidden', cat !== 'hq');
-  $('perf-domestic').classList.toggle('hidden', cat !== 'domestic');
-
-  if (cat === 'branch12' || cat === 'branch13') {
-    $('perf-branch-label').textContent = '営業店評価';
-    populateBranchEval();
-  }
+  $('perf-hq-office').classList.toggle('hidden', cat !== 'hq_office');
+  $('perf-branch').classList.toggle('hidden', cat !== 'branch');
+  $('perf-group').classList.toggle('hidden', cat !== 'group');
   calcPerf();
-}
-
-function populateBranchEval() {
-  var sel = $('perf-branch-eval');
-  sel.innerHTML = '';
-  BRANCH_EVAL_LABELS.forEach(function(label, i) {
-    var opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = label;
-    if (i === 2) opt.selected = true;
-    sel.appendChild(opt);
-  });
 }
 
 // --- Performance Point ---
@@ -518,19 +428,14 @@ function getPerformancePoint() {
 
   var cat = selectedCategory;
 
-  if (cat === 'domestic') {
-    return parseInt($('perf-domestic-eval').value, 10);
+  if (cat === 'hq_office') {
+    return parseInt($('perf-hq-office-eval').value, 10);
   }
-  if (cat === 'hq') {
-    var dept = $('perf-hq-dept').value;
-    var secIdx = HQ_EVAL_LABELS.indexOf($('perf-hq-section').value);
-    return PERF_HQ[dept][secIdx];
+  if (cat === 'branch') {
+    return parseInt($('perf-branch-eval').value, 10);
   }
-
-  var table = cat === 'branch12' ? PERF_BRANCH12 : PERF_BRANCH13;
-  var deptVal = $('perf-dept').value;
-  var branchIdx = parseInt($('perf-branch-eval').value, 10);
-  return table[deptVal][branchIdx];
+  // group: fixed 5P
+  return 5;
 }
 
 function calcPerf() { calc(); }
@@ -585,7 +490,6 @@ function calc() {
 }
 
 // --- Init ---
-populateBranchEval();
 calc();
 </script>
 </body>

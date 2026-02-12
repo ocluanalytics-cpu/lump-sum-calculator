@@ -147,12 +147,6 @@ $(function() {
   .lsc-badge-teal{background:var(--lsc-primary-light);color:var(--lsc-primary-dark)}
   /* hidden */
   .lsc-hidden{display:none!important}
-  /* performance table */
-  .lsc-perf-grid{display:grid;gap:6px}
-  .lsc-perf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
-  .lsc-perf-row select{font-size:.88rem;padding:8px}
-  /* domestic group */
-  .lsc-domestic-select{margin-top:8px}
   /* note box */
   .lsc-note{font-size:.72rem;color:var(--lsc-text-sub);background:#f0f2f3;border-radius:var(--lsc-radius);padding:8px 10px;margin-top:10px;line-height:1.5;font-weight:400}
   .lsc-note strong{color:var(--lsc-text);font-weight:700}
@@ -169,9 +163,6 @@ $(function() {
   .lsc-acc-formula{border-left:3px solid var(--lsc-primary);padding:6px 10px;margin:4px 0 8px;background:var(--lsc-primary-light);border-radius:0 var(--lsc-radius) var(--lsc-radius) 0;font-size:.75rem;color:#c0392b;font-weight:500}
   .lsc-acc-note{font-size:.72rem;color:var(--lsc-text-sub);margin-top:6px}
   .lsc-acc-ref{font-size:.72rem;color:var(--lsc-text-sub);margin-top:10px}
-  /* branch3 notice */
-  .lsc-branch3-notice{margin-top:12px;padding:10px 12px;background:#fff8e6;border:1px solid #f0d58c;border-radius:var(--lsc-radius);font-size:.72rem;line-height:1.5;color:#7a6520}
-  .lsc-branch3-notice .lsc-notice-icon{margin-right:4px}
   /* category buttons */
   .lsc-category-btns{display:grid;gap:8px}
   .lsc-category-btn{width:100%;padding:11px 14px;font-size:.85rem;font-weight:500;font-family:inherit;text-align:left;border:1.5px solid var(--lsc-border);border-radius:var(--lsc-radius);background:var(--lsc-card);color:var(--lsc-text);cursor:pointer;transition:all .2s}
@@ -392,14 +383,9 @@ $(function() {
   <div class="lsc-card lsc-hidden" id="lsc-category-card">
     <div class="lsc-card-title"><span class="lsc-icon">&#9654;</span> 区分選択</div>
     <div class="lsc-category-btns">
-      <button class="lsc-category-btn" data-cat="branch12" onclick="lscSelectCategory('branch12')">営業店（評価比率 部門１：支店２）</button>
-      <button class="lsc-category-btn" data-cat="branch13" onclick="lscSelectCategory('branch13')">営業店（評価比率 部門１：支店３）</button>
-      <button class="lsc-category-btn" data-cat="hq" onclick="lscSelectCategory('hq')">本社/海外グループ会社</button>
-      <button class="lsc-category-btn" data-cat="domestic" onclick="lscSelectCategory('domestic')">国内グループ会社</button>
-    </div>
-    <div class="lsc-branch3-notice">
-      <span class="lsc-notice-icon">&#9888;</span>営業店（評価比率 部門１：支店３）の対象店は以下の通りです。<br>
-      オペレーションG／金融法人部門／首都圏管理センター／東日本住宅ローンサービス支店関東管理センター／東京業務センター
+      <button class="lsc-category-btn" data-cat="hq_office" onclick="lscSelectCategory('hq_office')">本社部室店</button>
+      <button class="lsc-category-btn" data-cat="branch" onclick="lscSelectCategory('branch')">営業店</button>
+      <button class="lsc-category-btn" data-cat="group" onclick="lscSelectCategory('group')">グループ会社</button>
     </div>
   </div>
 
@@ -485,61 +471,30 @@ $(function() {
       </div>
       <!-- Summer: dynamic selectors -->
       <div id="lsc-perf-summer" class="lsc-hidden">
-        <!-- branch12 / branch13 -->
-        <div id="lsc-perf-branch" class="lsc-perf-grid">
-          <div class="lsc-perf-row">
-            <div class="lsc-field">
-              <label class="lsc-field-label">部門評価</label>
-              <select id="lsc-perf-dept" onchange="lscCalcPerf()">
-                <option value="A">A</option>
-                <option value="B+">B+</option>
-                <option value="B" selected>B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
-            <div class="lsc-field">
-              <label class="lsc-field-label" id="lsc-perf-branch-label">営業店評価</label>
-              <select id="lsc-perf-branch-eval" onchange="lscCalcPerf()">
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- hq -->
-        <div id="lsc-perf-hq" class="lsc-perf-grid lsc-hidden">
-          <div class="lsc-perf-row">
-            <div class="lsc-field">
-              <label class="lsc-field-label">部門評価</label>
-              <select id="lsc-perf-hq-dept" onchange="lscCalcPerf()">
-                <option value="A">A</option>
-                <option value="B+">B+</option>
-                <option value="B" selected>B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
-            <div class="lsc-field">
-              <label class="lsc-field-label">部・室評価</label>
-              <select id="lsc-perf-hq-section" onchange="lscCalcPerf()">
-                <option value="A">A</option>
-                <option value="B+">B+</option>
-                <option value="B" selected>B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- domestic -->
-        <div id="lsc-perf-domestic" class="lsc-hidden lsc-domestic-select">
-          <label class="lsc-field-label">グループ会社評価</label>
-          <select id="lsc-perf-domestic-eval" onchange="lscCalcPerf()">
-            <option value="10">S（10P）</option>
-            <option value="7">A（7P）</option>
-            <option value="5" selected>B（5P）</option>
+        <!-- 本社部室店 -->
+        <div id="lsc-perf-hq-office">
+          <select id="lsc-perf-hq-office-eval" onchange="lscCalcPerf()">
+            <option value="8">S（8P）</option>
+            <option value="6">A（6P）</option>
+            <option value="5" selected>B（5P）- 標準</option>
             <option value="3">C（3P）</option>
-            <option value="0">D（0P）</option>
+            <option value="2">D（2P）</option>
           </select>
+        </div>
+        <!-- 営業店 -->
+        <div id="lsc-perf-branch" class="lsc-hidden">
+          <select id="lsc-perf-branch-eval" onchange="lscCalcPerf()">
+            <option value="10">優秀（10P）</option>
+            <option value="7">優良（7P）</option>
+            <option value="5" selected>中位①（5P）- 標準</option>
+            <option value="3">中位②（3P）</option>
+            <option value="0">下位（0P）</option>
+          </select>
+        </div>
+        <!-- グループ会社 -->
+        <div id="lsc-perf-group" class="lsc-hidden">
+          <input type="number" value="5" disabled>
+          <div class="lsc-note" style="margin-top:6px">グループ会社は標準（5P）固定です。</div>
         </div>
       </div>
     </div>
@@ -599,33 +554,8 @@ var LSC_BASE_VALUES = {
   G01: { II: 18.9 }
 };
 
-var LSC_PERF_BRANCH12 = {
-  'A':  [13,10,8,6,3],
-  'B+': [11,8,6,4,1],
-  'B':  [10,7,5,3,0],
-  'C':  [9,6,4,2,0],
-  'D':  [7,4,2,0,0]
-};
-var LSC_PERF_BRANCH13 = {
-  'A':  [12,9,7,5,2],
-  'B+': [11,8,6,4,1],
-  'B':  [10,7,5,3,0],
-  'C':  [9,6,4,2,0],
-  'D':  [8,5,3,1,0]
-};
-var LSC_PERF_HQ = {
-  'A':  [10,8,7,6,4],
-  'B+': [9,7,6,5,3],
-  'B':  [8,6,5,4,2],
-  'C':  [7,5,4,3,1],
-  'D':  [6,4,3,2,0]
-};
-
-var LSC_BRANCH_EVAL_LABELS = ['優秀','優良','中位','下位1','下位2'];
-var LSC_HQ_EVAL_LABELS = ['A','B+','B','C','D'];
-
 var lscCurrentSeason = 'winter';
-var lscSelectedCategory = 'branch12';
+var lscSelectedCategory = 'hq_office';
 
 function lscById(id) { return document.getElementById(id); }
 
@@ -723,27 +653,10 @@ function lscSelectCategory(cat) {
 
 function lscOnCategoryChange() {
   var cat = lscSelectedCategory;
-  lscById('lsc-perf-branch').classList.toggle('lsc-hidden', cat !== 'branch12' && cat !== 'branch13');
-  lscById('lsc-perf-hq').classList.toggle('lsc-hidden', cat !== 'hq');
-  lscById('lsc-perf-domestic').classList.toggle('lsc-hidden', cat !== 'domestic');
-
-  if (cat === 'branch12' || cat === 'branch13') {
-    lscById('lsc-perf-branch-label').textContent = '営業店評価';
-    lscPopulateBranchEval();
-  }
+  lscById('lsc-perf-hq-office').classList.toggle('lsc-hidden', cat !== 'hq_office');
+  lscById('lsc-perf-branch').classList.toggle('lsc-hidden', cat !== 'branch');
+  lscById('lsc-perf-group').classList.toggle('lsc-hidden', cat !== 'group');
   lscCalcPerf();
-}
-
-function lscPopulateBranchEval() {
-  var sel = lscById('lsc-perf-branch-eval');
-  sel.innerHTML = '';
-  LSC_BRANCH_EVAL_LABELS.forEach(function(label, i) {
-    var opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = label;
-    if (i === 2) opt.selected = true;
-    sel.appendChild(opt);
-  });
 }
 
 // --- Performance Point ---
@@ -752,19 +665,14 @@ function lscGetPerformancePoint() {
 
   var cat = lscSelectedCategory;
 
-  if (cat === 'domestic') {
-    return parseInt(lscById('lsc-perf-domestic-eval').value, 10);
+  if (cat === 'hq_office') {
+    return parseInt(lscById('lsc-perf-hq-office-eval').value, 10);
   }
-  if (cat === 'hq') {
-    var dept = lscById('lsc-perf-hq-dept').value;
-    var secIdx = LSC_HQ_EVAL_LABELS.indexOf(lscById('lsc-perf-hq-section').value);
-    return LSC_PERF_HQ[dept][secIdx];
+  if (cat === 'branch') {
+    return parseInt(lscById('lsc-perf-branch-eval').value, 10);
   }
-
-  var table = cat === 'branch12' ? LSC_PERF_BRANCH12 : LSC_PERF_BRANCH13;
-  var deptVal = lscById('lsc-perf-dept').value;
-  var branchIdx = parseInt(lscById('lsc-perf-branch-eval').value, 10);
-  return table[deptVal][branchIdx];
+  // group: fixed 5P
+  return 5;
 }
 
 function lscCalcPerf() { lscCalc(); }
@@ -819,7 +727,6 @@ function lscCalc() {
 }
 
 // --- Init ---
-lscPopulateBranchEval();
 lscCalc();
 </script>
 
