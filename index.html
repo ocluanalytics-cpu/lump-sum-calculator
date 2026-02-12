@@ -5,26 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>一時金計算シミュレーター</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
-    --primary:#00aeef;--primary-light:#e0f5fd;--primary-dark:#0090c8;
-    --accent:#00c0f0;--accent-light:#b3e8fa;
-    --bg:#f4f8fb;--card:#fff;--text:#2c3e50;--text-sub:#6b7d8e;
-    --border:#d4dee6;--radius:12px;--shadow:0 1px 4px rgba(0,0,0,.06);
+    --primary:#24aed0;--primary-light:#e0f5fa;--primary-dark:#1d8fac;
+    --accent:#24aed0;--accent-light:#c7edf7;
+    --bg:#f5f7f8;--card:#fff;--text:#333;--text-sub:#666;
+    --border:#dce1e5;--radius:8px;--shadow:0 1px 3px rgba(0,0,0,.05);
   }
   html{font-size:16px;-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:2rem}
+  body{font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:2rem;font-weight:400}
 
   .container{max-width:540px;margin:0 auto;padding:0 12px}
 
   /* header */
   .header{background:var(--primary);color:#fff;padding:20px 0 28px;text-align:center}
   .header h1{font-size:1.2rem;font-weight:700;letter-spacing:.04em}
-  .header p{font-size:.78rem;opacity:.85;margin-top:4px}
+  .header p{font-size:.78rem;opacity:.9;margin-top:4px;font-weight:400}
 
   /* season toggle */
-  .season-toggle{display:flex;background:var(--card);border-radius:var(--radius);overflow:hidden;margin:-18px 12px 0;position:relative;z-index:1;box-shadow:0 4px 12px rgba(0,0,0,.08)}
-  .season-btn{flex:1;padding:12px;text-align:center;font-size:.95rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;background:var(--card);color:var(--text-sub)}
+  .season-toggle{display:flex;background:var(--card);border-radius:var(--radius);overflow:hidden;margin:-18px 12px 0;position:relative;z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .season-btn{flex:1;padding:12px;text-align:center;font-size:.95rem;font-weight:700;border:none;cursor:pointer;transition:all .2s;background:var(--card);color:var(--text-sub)}
   .season-btn.active{background:var(--primary);color:#fff}
   .season-btn:first-child{border-radius:var(--radius) 0 0 var(--radius)}
   .season-btn:last-child{border-radius:0 var(--radius) var(--radius) 0}
@@ -35,42 +36,42 @@
   .card-title .icon{font-size:1rem}
 
   /* form elements */
-  label.field-label{display:block;font-size:.8rem;font-weight:600;color:var(--text-sub);margin-bottom:4px}
+  label.field-label{display:block;font-size:.8rem;font-weight:500;color:var(--text-sub);margin-bottom:4px}
   select,input[type="number"]{
     width:100%;padding:10px 12px;font-size:1rem;border:1.5px solid var(--border);
-    border-radius:8px;background:var(--card);color:var(--text);appearance:none;
-    -webkit-appearance:none;transition:border-color .2s;outline:none
+    border-radius:var(--radius);background:var(--card);color:var(--text);appearance:none;
+    -webkit-appearance:none;transition:border-color .2s;outline:none;font-family:inherit
   }
   select{
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7d8e' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L2 5h12z'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L2 5h12z'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 12px center;padding-right:32px
   }
-  select:focus,input[type="number"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
-  select:disabled,input:disabled{background:#eceff1;color:#90a4ae;cursor:not-allowed}
+  select:focus,input[type="number"]:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--accent-light)}
+  select:disabled,input:disabled{background:#f0f2f3;color:#999;cursor:not-allowed}
   .field{margin-bottom:14px}
   .field:last-child{margin-bottom:0}
 
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
   /* point summary */
-  .point-summary{background:var(--primary-light);border-radius:8px;padding:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
-  .point-summary .label{font-size:.8rem;color:var(--primary-dark);font-weight:600}
-  .point-summary .value{font-size:1.2rem;font-weight:800;color:var(--primary-dark)}
+  .point-summary{background:var(--primary-light);border-radius:var(--radius);padding:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
+  .point-summary .label{font-size:.8rem;color:var(--primary-dark);font-weight:700}
+  .point-summary .value{font-size:1.2rem;font-weight:700;color:var(--primary-dark)}
 
   /* result */
-  .result-card{background:var(--primary);border-radius:var(--radius);padding:24px 16px;margin-top:16px;text-align:center;color:#fff;box-shadow:0 4px 16px rgba(0,174,239,.25)}
-  .result-card .result-label{font-size:.82rem;opacity:.9}
-  .result-card .result-value{font-size:2rem;font-weight:800;margin:8px 0 4px;letter-spacing:.02em}
-  .result-card .result-sub{font-size:.75rem;opacity:.75}
+  .result-card{background:var(--primary);border-radius:var(--radius);padding:24px 16px;margin-top:16px;text-align:center;color:#fff;box-shadow:0 2px 8px rgba(36,174,208,.25)}
+  .result-card .result-label{font-size:.82rem;opacity:.9;font-weight:400}
+  .result-card .result-value{font-size:2rem;font-weight:700;margin:8px 0 4px;letter-spacing:.02em}
+  .result-card .result-sub{font-size:.75rem;opacity:.75;font-weight:400}
 
   /* detail breakdown */
-  .breakdown{margin-top:12px;text-align:left;background:rgba(255,255,255,.15);border-radius:8px;padding:12px}
-  .breakdown dt{font-size:.72rem;opacity:.8;margin-top:6px}
+  .breakdown{margin-top:12px;text-align:left;background:rgba(255,255,255,.15);border-radius:var(--radius);padding:12px}
+  .breakdown dt{font-size:.72rem;opacity:.8;margin-top:6px;font-weight:400}
   .breakdown dt:first-child{margin-top:0}
-  .breakdown dd{font-size:.88rem;font-weight:600}
+  .breakdown dd{font-size:.88rem;font-weight:700}
 
   /* badge */
-  .badge{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:20px;font-weight:600}
+  .badge{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:20px;font-weight:500}
   .badge-teal{background:var(--primary-light);color:var(--primary-dark)}
 
   /* hidden */
@@ -85,11 +86,12 @@
   .domestic-select{margin-top:8px}
 
   /* note box */
-  .note{font-size:.72rem;color:var(--text-sub);background:#eceff1;border-radius:6px;padding:8px 10px;margin-top:10px;line-height:1.5}
-  .note strong{color:var(--text)}
+  .note{font-size:.72rem;color:var(--text-sub);background:#f0f2f3;border-radius:var(--radius);padding:8px 10px;margin-top:10px;line-height:1.5;font-weight:400}
+  .note strong{color:var(--text);font-weight:700}
 
   /* footer */
   .footer{text-align:center;margin-top:24px;font-size:.7rem;color:var(--text-sub);padding:0 12px}
+  .footer .copyright{margin-top:8px;font-size:.65rem;color:#999}
 
   @media(min-width:600px){
     .container{padding:0 20px}
@@ -104,7 +106,7 @@
 <div class="header">
   <div class="container">
     <h1>一時金計算シミュレーター</h1>
-    <p>労働組合 賞与計算ツール</p>
+    <p>オリエントコーポレーション労働組合 賞与計算ツール</p>
   </div>
 </div>
 
@@ -308,6 +310,7 @@
 
   <div class="footer">
     ※ 本ツールの計算結果はあくまで概算です。実際の支給額とは異なる場合があります。
+    <div class="copyright">&copy; オリエントコーポレーション労働組合 all rights reserved.</div>
   </div>
 </div>
 
