@@ -7,10 +7,10 @@
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
-    --primary:#2563eb;--primary-light:#dbeafe;--primary-dark:#1d4ed8;
-    --bg:#f0f4f8;--card:#fff;--text:#1e293b;--text-sub:#64748b;
-    --border:#e2e8f0;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08);
-    --green:#16a34a;--green-bg:#dcfce7;
+    --primary:#00897b;--primary-light:#e0f2f1;--primary-dark:#00695c;
+    --accent:#26a69a;--accent-light:#b2dfdb;
+    --bg:#f5f7f6;--card:#fff;--text:#263238;--text-sub:#607d8b;
+    --border:#cfd8dc;--radius:12px;--shadow:0 1px 4px rgba(0,0,0,.06);
   }
   html{font-size:16px;-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:2rem}
@@ -18,12 +18,12 @@
   .container{max-width:540px;margin:0 auto;padding:0 12px}
 
   /* header */
-  .header{background:linear-gradient(135deg,var(--primary),#7c3aed);color:#fff;padding:20px 0 24px;text-align:center}
-  .header h1{font-size:1.2rem;font-weight:700;letter-spacing:.02em}
+  .header{background:var(--primary);color:#fff;padding:20px 0 28px;text-align:center}
+  .header h1{font-size:1.2rem;font-weight:700;letter-spacing:.04em}
   .header p{font-size:.78rem;opacity:.85;margin-top:4px}
 
   /* season toggle */
-  .season-toggle{display:flex;background:var(--card);border-radius:var(--radius);overflow:hidden;margin:-18px 12px 0;position:relative;z-index:1;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+  .season-toggle{display:flex;background:var(--card);border-radius:var(--radius);overflow:hidden;margin:-18px 12px 0;position:relative;z-index:1;box-shadow:0 4px 12px rgba(0,0,0,.08)}
   .season-btn{flex:1;padding:12px;text-align:center;font-size:.95rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;background:var(--card);color:var(--text-sub)}
   .season-btn.active{background:var(--primary);color:#fff}
   .season-btn:first-child{border-radius:var(--radius) 0 0 var(--radius)}
@@ -42,11 +42,11 @@
     -webkit-appearance:none;transition:border-color .2s;outline:none
   }
   select{
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L2 5h12z'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23607d8b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L2 5h12z'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 12px center;padding-right:32px
   }
-  select:focus,input[type="number"]:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
-  select:disabled,input:disabled{background:#f1f5f9;color:#94a3b8;cursor:not-allowed}
+  select:focus,input[type="number"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
+  select:disabled,input:disabled{background:#eceff1;color:#90a4ae;cursor:not-allowed}
   .field{margin-bottom:14px}
   .field:last-child{margin-bottom:0}
 
@@ -58,7 +58,7 @@
   .point-summary .value{font-size:1.2rem;font-weight:800;color:var(--primary-dark)}
 
   /* result */
-  .result-card{background:linear-gradient(135deg,var(--primary),#7c3aed);border-radius:var(--radius);padding:24px 16px;margin-top:16px;text-align:center;color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.3)}
+  .result-card{background:var(--primary);border-radius:var(--radius);padding:24px 16px;margin-top:16px;text-align:center;color:#fff;box-shadow:0 4px 16px rgba(0,137,123,.25)}
   .result-card .result-label{font-size:.82rem;opacity:.9}
   .result-card .result-value{font-size:2rem;font-weight:800;margin:8px 0 4px;letter-spacing:.02em}
   .result-card .result-sub{font-size:.75rem;opacity:.75}
@@ -71,23 +71,21 @@
 
   /* badge */
   .badge{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:20px;font-weight:600}
-  .badge-fixed{background:rgba(255,255,255,.2);color:#fff}
+  .badge-teal{background:var(--primary-light);color:var(--primary-dark)}
 
   /* hidden */
   .hidden{display:none!important}
 
   /* performance table (summer) */
   .perf-grid{display:grid;gap:6px}
-  .perf-row{display:grid;grid-template-columns:48px 1fr 1fr;gap:6px;align-items:center}
-  .perf-row.header-row{font-size:.7rem;color:var(--text-sub);font-weight:600}
+  .perf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
   .perf-row select{font-size:.88rem;padding:8px}
-  .perf-row .row-label{font-size:.78rem;font-weight:600;color:var(--text)}
 
   /* domestic group simple select */
   .domestic-select{margin-top:8px}
 
   /* note box */
-  .note{font-size:.72rem;color:var(--text-sub);background:#f8fafc;border-radius:6px;padding:8px 10px;margin-top:10px;line-height:1.5}
+  .note{font-size:.72rem;color:var(--text-sub);background:#eceff1;border-radius:6px;padding:8px 10px;margin-top:10px;line-height:1.5}
   .note strong{color:var(--text)}
 
   /* footer */
@@ -119,7 +117,7 @@
 
   <!-- Category Selection (summer only) -->
   <div class="card hidden" id="category-card">
-    <div class="card-title"><span class="icon">📂</span> 区分選択</div>
+    <div class="card-title"><span class="icon">&#9654;</span> 区分選択</div>
     <div class="field">
       <select id="category" onchange="onCategoryChange()">
         <option value="branch12">営業店（評価比率 部門１：支店２）</option>
@@ -132,7 +130,7 @@
 
   <!-- Grade / Band -->
   <div class="card">
-    <div class="card-title"><span class="icon">🏷️</span> 賞与基準値</div>
+    <div class="card-title"><span class="icon">&#9654;</span> 賞与基準値</div>
     <div class="row2">
       <div class="field">
         <label class="field-label">グレード</label>
@@ -159,18 +157,18 @@
 
   <!-- Evaluation Points -->
   <div class="card">
-    <div class="card-title"><span class="icon">📊</span> 評価ポイント</div>
+    <div class="card-title"><span class="icon">&#9654;</span> 評価ポイント</div>
 
     <!-- Basic -->
     <div class="field">
-      <label class="field-label">基本 <span class="badge badge-fixed" style="background:var(--primary-light);color:var(--primary)">固定 75P</span></label>
+      <label class="field-label">基本 <span class="badge badge-teal">固定 75P</span></label>
       <input type="number" value="75" disabled>
     </div>
 
     <!-- Individual -->
     <div class="field">
-      <label class="field-label">個人加算</label>
-      <select id="individual" onchange="calc()">
+      <label class="field-label">個人加算 <span id="individual-badge" class="badge badge-teal">固定 15P</span></label>
+      <select id="individual" onchange="calc()" disabled>
         <option value="30">5（30P）</option>
         <option value="22">4（22P）</option>
         <option value="18">3.5（18P）</option>
@@ -183,8 +181,8 @@
 
     <!-- Qualitative -->
     <div class="field">
-      <label class="field-label">定性加算</label>
-      <select id="qualitative" onchange="calc()">
+      <label class="field-label">定性加算 <span id="qualitative-badge" class="badge badge-teal">固定 5P</span></label>
+      <select id="qualitative" onchange="calc()" disabled>
         <option value="0">0P</option>
         <option value="1">1P</option>
         <option value="2">2P</option>
@@ -205,7 +203,7 @@
 
     <!-- Performance (Winter: fixed / Summer: dynamic) -->
     <div class="field">
-      <label class="field-label">業績加算 <span id="perf-badge" class="badge badge-fixed" style="background:var(--primary-light);color:var(--primary)">標準評価 5P</span></label>
+      <label class="field-label">業績加算 <span id="perf-badge" class="badge badge-teal">固定 5P</span></label>
       <!-- Winter: fixed display -->
       <div id="perf-winter">
         <input type="number" value="5" disabled>
@@ -215,7 +213,7 @@
         <!-- branch12 / branch13 -->
         <div id="perf-branch" class="perf-grid">
           <div class="perf-row">
-            <div class="field" style="grid-column:1/2">
+            <div class="field">
               <label class="field-label">部門評価</label>
               <select id="perf-dept" onchange="calcPerf()">
                 <option value="A">A</option>
@@ -225,10 +223,9 @@
                 <option value="D">D</option>
               </select>
             </div>
-            <div class="field" style="grid-column:2/3">
+            <div class="field">
               <label class="field-label" id="perf-branch-label">営業店評価</label>
               <select id="perf-branch-eval" onchange="calcPerf()">
-                <!-- populated dynamically -->
               </select>
             </div>
           </div>
@@ -236,7 +233,7 @@
         <!-- hq -->
         <div id="perf-hq" class="perf-grid hidden">
           <div class="perf-row">
-            <div class="field" style="grid-column:1/2">
+            <div class="field">
               <label class="field-label">部門評価</label>
               <select id="perf-hq-dept" onchange="calcPerf()">
                 <option value="A">A</option>
@@ -246,7 +243,7 @@
                 <option value="D">D</option>
               </select>
             </div>
-            <div class="field" style="grid-column:2/3">
+            <div class="field">
               <label class="field-label">部・室評価</label>
               <select id="perf-hq-section" onchange="calcPerf()">
                 <option value="A">A</option>
@@ -274,25 +271,26 @@
 
     <div class="point-summary">
       <span class="label">合計ポイント</span>
-      <span class="value" id="total-points">100</span>
+      <span class="value" id="total-points">100P</span>
     </div>
   </div>
 
   <!-- Unit Price & Adjustment -->
   <div class="card">
-    <div class="card-title"><span class="icon">💰</span> 単価・係数</div>
+    <div class="card-title"><span class="icon">&#9654;</span> 単価・係数</div>
     <div class="row2">
       <div class="field">
         <label class="field-label">ポイント単価（円）</label>
         <input type="number" id="unit-price" value="205" min="0" step="1" onchange="calc()" oninput="calc()">
       </div>
-      <div class="field" id="adj-field">
+      <div class="field">
         <label class="field-label">調整係数</label>
         <input type="number" id="adj-coeff" value="1" min="0" step="0.01" onchange="calc()" oninput="calc()" disabled>
       </div>
     </div>
     <div class="note" id="winter-note">
-      <strong>冬期計算：</strong>一時金 = 賞与基準値 &times; 合計ポイント &times; ポイント単価 &times; 0.8
+      <strong>冬期計算：</strong>一時金 = 賞与基準値 &times; 合計ポイント &times; ポイント単価 &times; 0.8<br>
+      ※ 冬期は仮評価のため、個人加算15P・定性加算5P・業績加算5Pで固定されます。
     </div>
     <div class="note hidden" id="summer-note">
       <strong>夏期計算：</strong>年間一時金から冬期仮支給額を差し引き、調整係数を乗じて算出します。<br>
@@ -305,11 +303,7 @@
     <div class="result-label" id="result-label">冬期一時金（税引前）</div>
     <div class="result-value" id="result-value">0 円</div>
     <div class="result-sub" id="result-sub"></div>
-    <div class="breakdown" id="breakdown">
-      <dt>賞与基準値</dt><dd id="bd-base">-</dd>
-      <dt>合計ポイント</dt><dd id="bd-points">-</dd>
-      <dt>ポイント単価</dt><dd id="bd-unit">-</dd>
-    </div>
+    <div class="breakdown" id="breakdown"></div>
   </div>
 
   <div class="footer">
@@ -319,31 +313,28 @@
 
 <script>
 // --- Data Tables ---
-const BASE_VALUES = {
+var BASE_VALUES = {
   G04: { II: 35.4, I: 31.6 },
   G03: { II: 29.5, I: 26.2 },
   G02: { II: 23.5, I: 20.8 },
   G01: { II: 18.9 }
 };
 
-// Performance tables: [dept][branchEvalIndex]
-// branchEvalIndex for branch: 0=優秀,1=優良,2=中位,3=下位1,4=下位2
-const PERF_BRANCH12 = {
+var PERF_BRANCH12 = {
   'A':  [13,10,8,6,3],
   'B+': [11,8,6,4,1],
   'B':  [10,7,5,3,0],
   'C':  [9,6,4,2,0],
   'D':  [7,4,2,0,0]
 };
-const PERF_BRANCH13 = {
+var PERF_BRANCH13 = {
   'A':  [12,9,7,5,2],
   'B+': [11,8,6,4,1],
   'B':  [10,7,5,3,0],
   'C':  [9,6,4,2,0],
   'D':  [8,5,3,1,0]
 };
-// HQ: [dept][sectionIndex] sectionIndex: 0=A,1=B+,2=B,3=C,4=D
-const PERF_HQ = {
+var PERF_HQ = {
   'A':  [10,8,7,6,4],
   'B+': [9,7,6,5,3],
   'B':  [8,6,5,4,2],
@@ -351,12 +342,11 @@ const PERF_HQ = {
   'D':  [6,4,3,2,0]
 };
 
-const BRANCH_EVAL_LABELS = ['優秀','優良','中位','下位1','下位2'];
-const HQ_EVAL_LABELS = ['A','B+','B','C','D'];
+var BRANCH_EVAL_LABELS = ['優秀','優良','中位','下位1','下位2'];
+var HQ_EVAL_LABELS = ['A','B+','B','C','D'];
 
-let currentSeason = 'winter';
+var currentSeason = 'winter';
 
-// --- Helpers ---
 function $(id) { return document.getElementById(id); }
 
 function formatNumber(n) {
@@ -366,14 +356,28 @@ function formatNumber(n) {
 // --- Season ---
 function setSeason(season) {
   currentSeason = season;
-  document.querySelectorAll('.season-btn').forEach(b => {
+  document.querySelectorAll('.season-btn').forEach(function(b) {
     b.classList.toggle('active', b.dataset.season === season);
   });
 
-  const isWinter = season === 'winter';
+  var isWinter = season === 'winter';
 
   // Category card
   $('category-card').classList.toggle('hidden', isWinter);
+
+  // Individual: fixed in winter, selectable in summer
+  var indSel = $('individual');
+  var indBadge = $('individual-badge');
+  indSel.disabled = isWinter;
+  indBadge.classList.toggle('hidden', !isWinter);
+  if (isWinter) { indSel.value = '15'; }
+
+  // Qualitative: fixed in winter, selectable in summer
+  var qualSel = $('qualitative');
+  var qualBadge = $('qualitative-badge');
+  qualSel.disabled = isWinter;
+  qualBadge.classList.toggle('hidden', !isWinter);
+  if (isWinter) { qualSel.value = '5'; }
 
   // Performance section
   $('perf-winter').classList.toggle('hidden', !isWinter);
@@ -402,9 +406,8 @@ function setSeason(season) {
 
 // --- Grade / Band ---
 function onGradeChange() {
-  const grade = $('grade').value;
-  const bandSel = $('band');
-  // G01 only has Band II
+  var grade = $('grade').value;
+  var bandSel = $('band');
   if (grade === 'G01') {
     bandSel.innerHTML = '<option value="II">バンドII</option>';
   } else {
@@ -414,15 +417,15 @@ function onGradeChange() {
 }
 
 function getBaseValue() {
-  const grade = $('grade').value;
-  const band = $('band').value;
-  const entry = BASE_VALUES[grade];
+  var grade = $('grade').value;
+  var band = $('band').value;
+  var entry = BASE_VALUES[grade];
   return entry[band] !== undefined ? entry[band] : entry['II'];
 }
 
 // --- Category Change ---
 function onCategoryChange() {
-  const cat = $('category').value;
+  var cat = $('category').value;
   $('perf-branch').classList.toggle('hidden', cat !== 'branch12' && cat !== 'branch13');
   $('perf-hq').classList.toggle('hidden', cat !== 'hq');
   $('perf-domestic').classList.toggle('hidden', cat !== 'domestic');
@@ -435,13 +438,13 @@ function onCategoryChange() {
 }
 
 function populateBranchEval() {
-  const sel = $('perf-branch-eval');
+  var sel = $('perf-branch-eval');
   sel.innerHTML = '';
-  BRANCH_EVAL_LABELS.forEach((label, i) => {
-    const opt = document.createElement('option');
+  BRANCH_EVAL_LABELS.forEach(function(label, i) {
+    var opt = document.createElement('option');
     opt.value = i;
     opt.textContent = label;
-    if (i === 2) opt.selected = true; // default: 中位
+    if (i === 2) opt.selected = true;
     sel.appendChild(opt);
   });
 }
@@ -450,80 +453,66 @@ function populateBranchEval() {
 function getPerformancePoint() {
   if (currentSeason === 'winter') return 5;
 
-  const cat = $('category').value;
+  var cat = $('category').value;
 
   if (cat === 'domestic') {
     return parseInt($('perf-domestic-eval').value, 10);
   }
-
   if (cat === 'hq') {
-    const dept = $('perf-hq-dept').value;
-    const secIdx = HQ_EVAL_LABELS.indexOf($('perf-hq-section').value);
+    var dept = $('perf-hq-dept').value;
+    var secIdx = HQ_EVAL_LABELS.indexOf($('perf-hq-section').value);
     return PERF_HQ[dept][secIdx];
   }
 
-  // branch12 or branch13
-  const table = cat === 'branch12' ? PERF_BRANCH12 : PERF_BRANCH13;
-  const dept = $('perf-dept').value;
-  const branchIdx = parseInt($('perf-branch-eval').value, 10);
-  return table[dept][branchIdx];
+  var table = cat === 'branch12' ? PERF_BRANCH12 : PERF_BRANCH13;
+  var deptVal = $('perf-dept').value;
+  var branchIdx = parseInt($('perf-branch-eval').value, 10);
+  return table[deptVal][branchIdx];
 }
 
-function calcPerf() {
-  calc();
-}
+function calcPerf() { calc(); }
 
 // --- Main Calc ---
 function calc() {
-  const baseValue = getBaseValue();
+  var baseValue = getBaseValue();
   $('base-value').textContent = baseValue;
 
-  const basic = 75;
-  const individual = parseInt($('individual').value, 10);
-  const qualitative = parseInt($('qualitative').value, 10);
-  const performance = getPerformancePoint();
-  const totalPoints = basic + individual + qualitative + performance;
+  var basic = 75;
+  var individual = parseInt($('individual').value, 10);
+  var qualitative = parseInt($('qualitative').value, 10);
+  var performance = getPerformancePoint();
+  var totalPoints = basic + individual + qualitative + performance;
   $('total-points').textContent = totalPoints + 'P';
 
-  const unitPrice = parseFloat($('unit-price').value) || 0;
-  const adjCoeff = parseFloat($('adj-coeff').value) || 1;
+  var unitPrice = parseFloat($('unit-price').value) || 0;
+  var adjCoeff = parseFloat($('adj-coeff').value) || 1;
 
-  let result;
-  let subText = '';
+  var result;
+  var subText = '';
 
   if (currentSeason === 'winter') {
-    // Winter: 一時金 = 賞与基準値 × 合計ポイント × ポイント単価 × 0.8
     result = baseValue * totalPoints * unitPrice * 0.8;
-    subText = baseValue + ' × ' + totalPoints + ' × ' + unitPrice + ' × 0.8';
+    subText = baseValue + ' \u00d7 ' + totalPoints + ' \u00d7 ' + unitPrice + ' \u00d7 0.8';
   } else {
-    // Summer:
-    // 冬期仮支給額 = 賞与基準値 × 100 × 205 × 0.8
-    const winterTemp = baseValue * 100 * 205 * 0.8;
-    // 年間一時金 = 賞与基準値 × 合計ポイント × ポイント単価 × 2
-    const annualFull = baseValue * totalPoints * unitPrice * 2;
-    // 夏期一時金 = (年間一時金 - 冬期仮支給額) × 調整係数
+    var winterTemp = baseValue * 100 * 205 * 0.8;
+    var annualFull = baseValue * totalPoints * unitPrice * 2;
     result = (annualFull - winterTemp) * adjCoeff;
-    subText = '( ' + baseValue + ' × ' + totalPoints + ' × ' + unitPrice + ' × 2 - ' + formatNumber(winterTemp) + ' ) × ' + adjCoeff;
+    subText = '( ' + baseValue + ' \u00d7 ' + totalPoints + ' \u00d7 ' + unitPrice + ' \u00d7 2 - ' + formatNumber(winterTemp) + ' ) \u00d7 ' + adjCoeff;
   }
 
   $('result-value').textContent = formatNumber(result) + ' 円';
   $('result-sub').textContent = subText;
 
   // Breakdown
-  $('bd-base').textContent = baseValue;
-  $('bd-points').textContent = totalPoints + 'P（基本75 + 個人' + individual + ' + 定性' + qualitative + ' + 業績' + performance + '）';
-  $('bd-unit').textContent = unitPrice + '円';
-
-  // Update breakdown for summer
-  const bd = $('breakdown');
+  var bd = $('breakdown');
   if (currentSeason === 'summer') {
-    const winterTemp = baseValue * 100 * 205 * 0.8;
+    var winterTemp2 = baseValue * 100 * 205 * 0.8;
     bd.innerHTML =
       '<dt>賞与基準値</dt><dd>' + baseValue + '</dd>' +
       '<dt>合計ポイント</dt><dd>' + totalPoints + 'P（基本75 + 個人' + individual + ' + 定性' + qualitative + ' + 業績' + performance + '）</dd>' +
       '<dt>ポイント単価</dt><dd>' + unitPrice + '円</dd>' +
       '<dt>調整係数</dt><dd>' + adjCoeff + '</dd>' +
-      '<dt>冬期仮支給額（控除）</dt><dd>' + formatNumber(winterTemp) + '円</dd>';
+      '<dt>冬期仮支給額（控除）</dt><dd>' + formatNumber(winterTemp2) + '円</dd>';
   } else {
     bd.innerHTML =
       '<dt>賞与基準値</dt><dd>' + baseValue + '</dd>' +
