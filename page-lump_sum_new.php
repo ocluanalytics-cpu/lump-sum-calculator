@@ -170,8 +170,13 @@ $(function() {
   .lsc-acc-note{font-size:.72rem;color:var(--lsc-text-sub);margin-top:6px}
   .lsc-acc-ref{font-size:.72rem;color:var(--lsc-text-sub);margin-top:10px}
   /* branch3 notice */
-  .lsc-branch3-notice{display:none;margin-top:10px;padding:10px 12px;background:#fff8e6;border:1px solid #f0d58c;border-radius:var(--lsc-radius);font-size:.72rem;line-height:1.5;color:#7a6520}
+  .lsc-branch3-notice{margin-top:12px;padding:10px 12px;background:#fff8e6;border:1px solid #f0d58c;border-radius:var(--lsc-radius);font-size:.72rem;line-height:1.5;color:#7a6520}
   .lsc-branch3-notice .lsc-notice-icon{margin-right:4px}
+  /* category buttons */
+  .lsc-category-btns{display:grid;gap:8px}
+  .lsc-category-btn{width:100%;padding:11px 14px;font-size:.85rem;font-weight:500;font-family:inherit;text-align:left;border:1.5px solid var(--lsc-border);border-radius:var(--lsc-radius);background:var(--lsc-card);color:var(--lsc-text);cursor:pointer;transition:all .2s}
+  .lsc-category-btn:hover{border-color:var(--lsc-primary);color:var(--lsc-primary)}
+  .lsc-category-btn.active{border-color:var(--lsc-primary);background:var(--lsc-primary-light);color:var(--lsc-primary-dark);font-weight:700}
   /* footer */
   .lsc-footer{text-align:center;margin-top:24px;font-size:.7rem;color:var(--lsc-text-sub);padding:0 12px}
   @media(min-width:600px){
@@ -386,15 +391,13 @@ $(function() {
   <!-- Category Selection (summer only) -->
   <div class="lsc-card lsc-hidden" id="lsc-category-card">
     <div class="lsc-card-title"><span class="lsc-icon">&#9654;</span> 区分選択</div>
-    <div class="lsc-field">
-      <select id="lsc-category" onchange="lscOnCategoryChange()">
-        <option value="branch12">営業店（評価比率 部門１：支店２）</option>
-        <option value="branch13">営業店（評価比率 部門１：支店３）</option>
-        <option value="hq">本社/海外グループ会社</option>
-        <option value="domestic">国内グループ会社</option>
-      </select>
+    <div class="lsc-category-btns">
+      <button class="lsc-category-btn" data-cat="branch12" onclick="lscSelectCategory('branch12')">営業店（評価比率 部門１：支店２）</button>
+      <button class="lsc-category-btn" data-cat="branch13" onclick="lscSelectCategory('branch13')">営業店（評価比率 部門１：支店３）</button>
+      <button class="lsc-category-btn" data-cat="hq" onclick="lscSelectCategory('hq')">本社/海外グループ会社</button>
+      <button class="lsc-category-btn" data-cat="domestic" onclick="lscSelectCategory('domestic')">国内グループ会社</button>
     </div>
-    <div class="lsc-branch3-notice" id="lsc-branch3-notice">
+    <div class="lsc-branch3-notice">
       <span class="lsc-notice-icon">&#9888;</span>営業店（評価比率 部門１：支店３）の対象店は以下の通りです。<br>
       オペレーションG／金融法人部門／首都圏管理センター／東日本住宅ローンサービス支店関東管理センター／東京業務センター
     </div>
@@ -622,6 +625,7 @@ var LSC_BRANCH_EVAL_LABELS = ['優秀','優良','中位','下位1','下位2'];
 var LSC_HQ_EVAL_LABELS = ['A','B+','B','C','D'];
 
 var lscCurrentSeason = 'winter';
+var lscSelectedCategory = 'branch12';
 
 function lscById(id) { return document.getElementById(id); }
 
@@ -708,14 +712,20 @@ function lscGetBaseValue() {
 }
 
 // --- Category Change ---
+// --- Category Selection ---
+function lscSelectCategory(cat) {
+  lscSelectedCategory = cat;
+  document.querySelectorAll('.lsc-category-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.cat === cat);
+  });
+  lscOnCategoryChange();
+}
+
 function lscOnCategoryChange() {
-  var cat = lscById('lsc-category').value;
+  var cat = lscSelectedCategory;
   lscById('lsc-perf-branch').classList.toggle('lsc-hidden', cat !== 'branch12' && cat !== 'branch13');
   lscById('lsc-perf-hq').classList.toggle('lsc-hidden', cat !== 'hq');
   lscById('lsc-perf-domestic').classList.toggle('lsc-hidden', cat !== 'domestic');
-
-  // branch3 notice
-  lscById('lsc-branch3-notice').style.display = (cat === 'branch13') ? 'block' : 'none';
 
   if (cat === 'branch12' || cat === 'branch13') {
     lscById('lsc-perf-branch-label').textContent = '営業店評価';
@@ -740,7 +750,7 @@ function lscPopulateBranchEval() {
 function lscGetPerformancePoint() {
   if (lscCurrentSeason === 'winter') return 5;
 
-  var cat = lscById('lsc-category').value;
+  var cat = lscSelectedCategory;
 
   if (cat === 'domestic') {
     return parseInt(lscById('lsc-perf-domestic-eval').value, 10);

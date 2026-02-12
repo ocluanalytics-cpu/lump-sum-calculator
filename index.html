@@ -104,8 +104,14 @@
   .acc-ref{font-size:.72rem;color:var(--text-sub);margin-top:10px}
 
   /* branch3 notice */
-  .branch3-notice{display:none;margin-top:10px;padding:10px 12px;background:#fff8e6;border:1px solid #f0d58c;border-radius:var(--radius);font-size:.72rem;line-height:1.5;color:#7a6520}
+  .branch3-notice{margin-top:12px;padding:10px 12px;background:#fff8e6;border:1px solid #f0d58c;border-radius:var(--radius);font-size:.72rem;line-height:1.5;color:#7a6520}
   .branch3-notice .notice-icon{margin-right:4px}
+
+  /* category buttons */
+  .category-btns{display:grid;gap:8px}
+  .category-btn{width:100%;padding:11px 14px;font-size:.85rem;font-weight:500;font-family:inherit;text-align:left;border:1.5px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);cursor:pointer;transition:all .2s}
+  .category-btn:hover{border-color:var(--primary);color:var(--primary)}
+  .category-btn.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark);font-weight:700}
 
   /* footer */
   .footer{text-align:center;margin-top:24px;font-size:.7rem;color:var(--text-sub);padding:0 12px}
@@ -154,15 +160,13 @@
   <!-- Category Selection (summer only) -->
   <div class="card hidden" id="category-card">
     <div class="card-title"><span class="icon">&#9654;</span> 区分選択</div>
-    <div class="field">
-      <select id="category" onchange="onCategoryChange()">
-        <option value="branch12">営業店（評価比率 部門１：支店２）</option>
-        <option value="branch13">営業店（評価比率 部門１：支店３）</option>
-        <option value="hq">本社/海外グループ会社</option>
-        <option value="domestic">国内グループ会社</option>
-      </select>
+    <div class="category-btns">
+      <button class="category-btn" data-cat="branch12" onclick="selectCategory('branch12')">営業店（評価比率 部門１：支店２）</button>
+      <button class="category-btn" data-cat="branch13" onclick="selectCategory('branch13')">営業店（評価比率 部門１：支店３）</button>
+      <button class="category-btn" data-cat="hq" onclick="selectCategory('hq')">本社/海外グループ会社</button>
+      <button class="category-btn" data-cat="domestic" onclick="selectCategory('domestic')">国内グループ会社</button>
     </div>
-    <div class="branch3-notice" id="branch3-notice">
+    <div class="branch3-notice">
       <span class="notice-icon">&#9888;</span>営業店（評価比率 部門１：支店３）の対象店は以下の通りです。<br>
       オペレーションG／金融法人部門／首都圏管理センター／東日本住宅ローンサービス支店関東管理センター／東京業務センター
     </div>
@@ -387,6 +391,7 @@ var BRANCH_EVAL_LABELS = ['優秀','優良','中位','下位1','下位2'];
 var HQ_EVAL_LABELS = ['A','B+','B','C','D'];
 
 var currentSeason = 'winter';
+var selectedCategory = 'branch12';
 
 function $(id) { return document.getElementById(id); }
 
@@ -472,15 +477,21 @@ function getBaseValue() {
   return entry[band] !== undefined ? entry[band] : entry['II'];
 }
 
+// --- Category Selection ---
+function selectCategory(cat) {
+  selectedCategory = cat;
+  document.querySelectorAll('.category-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.cat === cat);
+  });
+  onCategoryChange();
+}
+
 // --- Category Change ---
 function onCategoryChange() {
-  var cat = $('category').value;
+  var cat = selectedCategory;
   $('perf-branch').classList.toggle('hidden', cat !== 'branch12' && cat !== 'branch13');
   $('perf-hq').classList.toggle('hidden', cat !== 'hq');
   $('perf-domestic').classList.toggle('hidden', cat !== 'domestic');
-
-  // branch3 notice
-  $('branch3-notice').style.display = (cat === 'branch13') ? 'block' : 'none';
 
   if (cat === 'branch12' || cat === 'branch13') {
     $('perf-branch-label').textContent = '営業店評価';
@@ -505,7 +516,7 @@ function populateBranchEval() {
 function getPerformancePoint() {
   if (currentSeason === 'winter') return 5;
 
-  var cat = $('category').value;
+  var cat = selectedCategory;
 
   if (cat === 'domestic') {
     return parseInt($('perf-domestic-eval').value, 10);
